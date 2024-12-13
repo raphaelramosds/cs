@@ -23,6 +23,7 @@ endfunction;
 /*
 * \realestados
 * @param A, B
+* @param polos
 * @returns K
 */
 function K = realestados(A,B,polos)
@@ -57,8 +58,9 @@ endfunction
 
 /*
 * \obsvestados
-* @param A, B
-* @returns K
+* @param A, C
+* @param polos
+* @returns L
 */
 function L = obsvestados(A,C,polos)
     // Matriz de observabilidade
@@ -88,4 +90,16 @@ function L = obsvestados(A,C,polos)
     aux = zeros(1,n);
     aux($) = 1;
     L=ql*inv(V)*aux';
+endfunction
+
+/*
+* \segreferencia
+* @param A, B, C
+* @param polos
+* @returns 
+*/
+function segreferencia(A,B,C,polos)
+    // Montar matriz aumentada com Aa e Ba
+    // Verificar controlabilidade de Ua
+    // Aplicar formula de Ackerman para descobrir k1 e K2
 endfunction
