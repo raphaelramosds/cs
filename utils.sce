@@ -25,7 +25,7 @@ endfunction;
 * @param A, B
 * @returns K
 */
-function K = realestados(A,B, polos)
+function K = realestados(A,B,polos)
     // Matriz de controlabilidade
     U = cont_mat(A,B)
     
@@ -55,3 +55,37 @@ function K = realestados(A,B, polos)
     K=-aux*inv(U)*qc;
 endfunction
 
+/*
+* \obsvestados
+* @param A, B
+* @returns K
+*/
+function L = obsvestados(A,C,polos)
+    // Matriz de observabilidade
+    V = obsv_mat(A,C)
+    
+    // Ordem do sistema
+    n = size(A,1);
+    
+    // Verificar observabilidade
+    if rank(V) < n then
+        disp("O sistema não é observavel. Não é possível calcular L.");
+        halt;
+    end
+    
+    // Polinomio auxiliar
+    delta = poly(polos, 's');
+
+    // Calculo de ql(A)
+    ql = zeros(n,n);
+    i=0;
+    for c = coeff(delta)
+        ql = ql + c*A^i;
+        i=i+1;
+    end
+    
+    // Calculo da matriz de ganhos K pela formula de Ackerman
+    aux = zeros(1,n);
+    aux($) = 1;
+    L=ql*inv(V)*aux';
+endfunction

@@ -4,6 +4,9 @@ B = [1; 1];         // Matriz de entrada
 C = [1 1];
 
 // Polos desejados
-polos = [-2-%i -2+%i -10];
+// polos = [-2-%i -2+%i -10];
+polos = [-3 -3];
 
-K = realestados(A,B,polos)
+K = realestados(A,B,polos);
+
+L = obsvestados(A,C,polos);
