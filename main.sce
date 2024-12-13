@@ -6,3 +6,4 @@ C = [1 1];
 // Polos desejados
 polos = [-2-%i -2+%i -10];
 
+K = realestados(A,B,polos)
