@@ -4,6 +4,9 @@
 * @returns U, V
 */
 function [U,V] = polc(A,B,C)
+    // Ordem do sistema
+    n = size(A,1);
+    
     // Polinomio caracteristico
     p = poly(A,'x')
     disp('Polinomio caracteristico', p);
@@ -15,9 +18,17 @@ function [U,V] = polc(A,B,C)
     // Matrizes de controlabilidade (U) e observabilidade (V)
     U = cont_mat(A,B);
     disp('Matriz de controlabilidade',U);
+    if rank(U) < n then
+        disp("O sistema não é controlável.");
+        halt;
+    end
     
     V = obsv_mat(A,C);
     disp('Matriz de observabilidade',V);
+    if rank(V) < n then
+        disp("O sistema não é observavel.");
+        halt;
+    end
 endfunction;
 
 /*
@@ -29,6 +40,7 @@ endfunction;
 function K = realestados(A,B,polos)
     // Matriz de controlabilidade
     U = cont_mat(A,B)
+    disp('Matriz de controlabilidade', U)
     
     // Ordem do sistema
     n = size(A,1);
@@ -41,6 +53,7 @@ function K = realestados(A,B,polos)
     
     // Polinomio auxiliar
     delta = poly(polos, 's');
+    disp('delta',delta)
     
     // Calculo de qc(A)
     qc = zeros(n,n);
@@ -49,11 +62,13 @@ function K = realestados(A,B,polos)
         qc = qc + c*A^i;
         i=i+1;
     end
+    disp('qc(A)',qc);
     
     // Calculo da matriz de ganhos K pela formula de Ackerman
     aux = zeros(1,n);
     aux($) = 1;
     K=-aux*inv(U)*qc;
+    disp('K', K);
 endfunction
 
 /*
@@ -65,6 +80,7 @@ endfunction
 function L = obsvestados(A,C,polos)
     // Matriz de observabilidade
     V = obsv_mat(A,C)
+    disp('Matriz de observabilidade', V);
     
     // Ordem do sistema
     n = size(A,1);
@@ -77,6 +93,7 @@ function L = obsvestados(A,C,polos)
     
     // Polinomio auxiliar
     delta = poly(polos, 's');
+    disp('delta', delta);
 
     // Calculo de ql(A)
     ql = zeros(n,n);
@@ -85,11 +102,13 @@ function L = obsvestados(A,C,polos)
         ql = ql + c*A^i;
         i=i+1;
     end
+    disp('ql(A)',ql);
     
     // Calculo da matriz de ganhos L pela formula de Ackerman
     aux = zeros(1,n);
     aux($) = 1;
     L=ql*inv(V)*aux';
+    disp('L',L);
 endfunction
 
 /*
@@ -132,15 +151,15 @@ endfunction
 **/
 function [Acc, Bcc, Ccc, Dcc] = rcont(N,D)
     // Inverter ordem dos coeficientes de a e b
-    a = coeff(D)($:-1:1); 
-    b = coeff(N)($:-1:1);
+    a = coeff(D); 
+    b = coeff(N);
     
-    // Ordem do sistema
+    // Ordem
     n = length(a)-1;
-    O = zeros(n,1);
+    O = zeros(n-1,1);
     
     // Montar matrizes na forma canonica
-    Acc = [O eye(n,n); -a];
+    Acc = [O eye(n-1,n-1); -a(1:$-1)];
     Bcc = [O; 1];
     Ccc = b;
     Dcc = [0];
