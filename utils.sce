@@ -1,5 +1,5 @@
 /*
-* \polc
+* Matrizes de controlablidade e observabilidade
 * @param A, B, C
 * @returns U, V
 */
@@ -21,7 +21,7 @@ function [U,V] = polc(A,B,C)
 endfunction;
 
 /*
-* \realestados
+* Realimentacao de estados
 * @param A, B
 * @param polos
 * @returns K
@@ -57,7 +57,7 @@ function K = realestados(A,B,polos)
 endfunction
 
 /*
-* \obsvestados
+* Observador de estados
 * @param A, C
 * @param polos
 * @returns L
@@ -93,7 +93,7 @@ function L = obsvestados(A,C,polos)
 endfunction
 
 /*
-* \segreferencia
+* Seguidor de referencia para entrada degrau unitario
 * @param A, B, C
 * @param polos
 * @returns 
@@ -118,4 +118,43 @@ function [k1, K2] = segreferencia(A,B,C,polos)
     K = realestados(Aa,Ba,polos);
     k1 = K(1);
     K2 = K(2:$);
+endfunction
+
+/*
+* Forma Canonica Controlavel (CC)
+* @param N, D
+* @returns Acc, Bcc, Ccc, Dcc
+*
+* Note.
+*   1. Funcao de Transferencia Y(s)/U(s) = N(s)/D(s)
+*   2. N(s) = b1*s^(n-1) + ... + b(n-1)*s + b(n)
+*   3. D(s) = s^n + a(1)*s^(n-1) + ... + a(n-1)*s + a(n)   
+**/
+function [Acc, Bcc, Ccc, Dcc] = rcont(N,D)
+    // Inverter ordem dos coeficientes de a e b
+    a = coeff(D)($:-1:1); 
+    b = coeff(N)($:-1:1);
+    
+    // Ordem do sistema
+    n = length(a)-1;
+    O = zeros(n,1);
+    
+    // Montar matrizes na forma canonica
+    Acc = [O eye(n,n); -a];
+    Bcc = [O; 1];
+    Ccc = b;
+    Dcc = [0];
+endfunction
+
+/*
+* Forma Canonica Observavel (CO)
+* @param N, D
+* @returns Aco, Bco, Cco, Dco
+**/
+function [Aco, Bco, Cco, Dco] = robsv(N,D)
+    [Acc, Bcc, Ccc, Dcc] = rcont(N,D);
+    Aco = Acc';
+    Bco = Ccc';
+    Cco = Bcc';
+    Dco = Dcc;
 endfunction

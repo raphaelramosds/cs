@@ -8,3 +8,13 @@ polos = [-10 -1-%i -1+%i];
 
 // Seguidor de referencia
 [k1, K2] = segreferencia(A, B, C, polos);
+
+// Y(s)/U(s) = N(s)/D(s)
+N = 3*%s^2+4*%s-2;
+D = %s^3+3*%s^2+7*%s+5;
+
+// Representacao controlavel
+[Acc, Bcc, Ccc, Dcc] = rcont(N, D);
+
+// Representacao observavel
+[Aco, Bco, Cco, Dco] = robsv(N, D);
