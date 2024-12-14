@@ -136,6 +136,7 @@ function [k1, K2] = segreferencia(A,B,C,polos)
     disp('Aa', Aa);
     disp('Ba', Ba);
     disp('Ua', Ua);
+    disp('rank',rank(Ua))
     
     // Aplicar formula de Ackerman para descobrir k1 e K2
     K = realestados(Aa,Ba,polos);
