@@ -86,7 +86,7 @@ function L = obsvestados(A,C,polos)
         i=i+1;
     end
     
-    // Calculo da matriz de ganhos K pela formula de Ackerman
+    // Calculo da matriz de ganhos L pela formula de Ackerman
     aux = zeros(1,n);
     aux($) = 1;
     L=ql*inv(V)*aux';
@@ -98,8 +98,24 @@ endfunction
 * @param polos
 * @returns 
 */
-function segreferencia(A,B,C,polos)
-    // Montar matriz aumentada com Aa e Ba
-    // Verificar controlabilidade de Ua
+function [k1, K2] = segreferencia(A,B,C,polos)
+    // Ordem do sistema
+    n = size(A,1);
+    O = zeros(n,1);
+    
+    // Montar matriz aumentada
+    Aa = [0 C; O A];
+    Ba = [0; B];
+  
+    // Verificar controlabilidade
+    Ua = cont_mat(Aa, Ba)
+    if rank(Ua) < n then
+        disp("O sistema não é controlável. Não é possível calcular K.");
+        halt;
+    end
+    
     // Aplicar formula de Ackerman para descobrir k1 e K2
+    K = realestados(Aa,Ba,polos);
+    k1 = K(1);
+    K2 = K(2:$);
 endfunction

@@ -1,12 +1,10 @@
 // Definindo os dados do sistema
-A = [1 0; 0 -2];    // Matriz de estados
-B = [1; 1];         // Matriz de entrada
-C = [1 1];
+A = [0 1; -2 -2];    // Matriz de estados
+B = [0; 1];         // Matriz de entrada
+C = [1 0];
 
 // Polos desejados
-// polos = [-2-%i -2+%i -10];
-polos = [-3 -3];
+polos = [-10 -1-%i -1+%i];
 
-K = realestados(A,B,polos);
-
-L = obsvestados(A,C,polos);
+// Seguidor de referencia
+[k1, K2] = segreferencia(A, B, C, polos);
