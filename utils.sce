@@ -125,6 +125,7 @@ function [k1, K2] = segreferencia(A,B,C,polos)
     // Montar matriz aumentada
     Aa = [0 C; O A];
     Ba = [0; B];
+    n = size(Aa,1);
   
     // Verificar controlabilidade
     Ua = cont_mat(Aa, Ba)
@@ -132,11 +133,16 @@ function [k1, K2] = segreferencia(A,B,C,polos)
         disp("O sistema não é controlável. Não é possível calcular K.");
         halt;
     end
+    disp('Aa', Aa);
+    disp('Ba', Ba);
+    disp('Ua', Ua);
     
     // Aplicar formula de Ackerman para descobrir k1 e K2
     K = realestados(Aa,Ba,polos);
     k1 = K(1);
     K2 = K(2:$);
+    disp('k1', k1);
+    disp('K2', K2);
 endfunction
 
 /*
