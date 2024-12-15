@@ -157,18 +157,31 @@ endfunction
 *   3. D(s) = s^n + a(1)*s^(n-1) + ... + a(n-1)*s + a(n)   
 **/
 function [Acc, Bcc, Ccc, Dcc] = rcont(N,D)
-    // Inverter ordem dos coeficientes de a e b
+    // Grau dos polinomios
+    dn = degree(N);
+    dd = degree(D)
+    
+    // Coeficientes dos polinomios
     a = coeff(D); 
     b = coeff(N);
     
     // Ordem
-    n = length(a)-1;
+    n = dd;
     O = zeros(n-1,1);
     
     // Montar matrizes na forma canonica
     Acc = [O eye(n-1,n-1); -a(1:$-1)];
     Bcc = [O; 1];
-    Ccc = b;
+    
+    // A forma restrita exige que o grau de N(s) seja o grau de D(s) menos um
+    if dn <> dd-1 then
+        // Complete com zero até o coeficiente n-1
+        Ccc = [b O'];
+    else
+        // Se for restrita, preencha com os coeficientes b
+        Ccc = b;
+    end;
+    
     Dcc = [0];
 endfunction
 
