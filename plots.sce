@@ -23,5 +23,4 @@ function plotsegreferencia(A,B,C,k1,K2,n)
     plot(t, y, 'b', t, r, 'r--');
     xtitle("Resposta do Seguidor de Referência", "Tempo (s)", "Saída y(t)");
     legend(["Saída y(t)" "Referência r(t)"]);
-endfunction
-
+endfunction;
