@@ -30,7 +30,7 @@ function [k1, K2] = fn_segreferencia(A, B, C, polos)
     disp(rank(Ua));
 
     % Aplicar fórmula de Ackerman para descobrir k1 e K2
-    K = fn_realestados(Aa, Ba, polos);
+    K = (-1) * fn_realestados(Aa, Ba, polos);
     k1 = K(1);
     K2 = K(2:end);
 
