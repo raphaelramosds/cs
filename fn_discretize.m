@@ -1,5 +1,5 @@
 function [G, H] = fn_discretize(A,B, T)
-  % Discretiza um sistema discreto (A,B,C,D) com periodo de amostragem T segundos
+  % Discretiza um sistema continuo (A,B,C,D) com periodo de amostragem T segundos
   % @param A, B
   % @param T
   % @returns G, H
