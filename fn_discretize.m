@@ -10,11 +10,11 @@ function [G, H] = fn_discretize(A,B, T)
   % Ordem do sistema
   n = size(A,1);
 
-  % Calculo de e^(AT) e integral de e^(At)*B, com t=0..T
+  % Montar de forma simbolica e^(AT) e eAt*B
   eAt = ilaplace(inv(s*eye(n,n)-A),s,t);
   eAtB = eAt * B;
 
   % Calculo das matrizes G e H
-  G = double(subs(eAt, t, T))
-  H = double(int(eAtB, t, 0, T))
+  G = double(subs(eAt, t, T))     # Avaliar eAt em t = T
+  H = double(int(eAtB, t, 0, T))  # Integral de e^(At)*B, com t=0..T
 end
