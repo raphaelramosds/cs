@@ -24,7 +24,7 @@ function L = fn_obsvestados(A, C, polos)
     disp( poly2sym(delta) );
 
     % Cálculo de ql(A)
-    delta = flip(delta)
+    delta = flip(delta);
     ql = zeros(n, n);
     for i = 1:length(delta)
         ql = ql + delta(i) * A^(i-1);

@@ -9,8 +9,8 @@ function [Acc, Bcc, Ccc, Dcc] = fn_rcont(N, D)
     %   3. D(s) = s^n + a(1)*s^(n-1) + ... + a(n-1)*s + a(n)
 
     % Coeficientes dos polinomios
-    a = coeffs(D);
-    b = coeffs(N);
+    a = fliplr(coeffs(D,'All'))
+    b = fliplr(coeffs(N,'All'))
 
     % Grau dos polinomios
     dn = length(b) - 1;  % Grau de N(s)
@@ -23,16 +23,7 @@ function [Acc, Bcc, Ccc, Dcc] = fn_rcont(N, D)
     % Montar matrizes na forma canonica
     Acc = double([[O eye(n-1,n-1)]; -a(1:end-1)]);
     Bcc = [O; 1];
-
-    % A forma restrita exige que o grau de N(s) seja o grau de D(s) menos um
-    if dn != dd - 1
-        % Complete com zero até o coeficiente n-1
-        Ccc = double([b, O']);
-    else
-        % Se for restrita, preencha com os coeficientes b
-        Ccc = double(b);
-    end
-
+    Ccc = double([b, zeros(1, n - length(b))]);
     Dcc = 0;
 end
 

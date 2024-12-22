@@ -4,33 +4,40 @@ function [U, V] = fn_polc(A, B, C)
     % @returns U, V
 
     % Ordem do sistema
-    n = size(A, 1);
+    disp('Ordem do sistema');
+    n = size(A, 1)
 
     % Polinômio característico
     p = poly(A);
-    disp('Polinômio característico:');
-    disp( poly2sym(p) );
 
     % Polos
     sol = roots(p);
-    disp('Polos:');
-    disp(sol);
 
     % Matriz de controlabilidade (U)
-    U = ctrb(A, B);
     disp('Matriz de controlabilidade:');
-    disp(U);
-    if rank(U) < n
-        disp('O sistema não é controlável.');
+    U = ctrb(A, B)
+
+    disp('Rank da matriz de controlabilidade');
+    rankU = rank(U)
+
+    if rankU != n
+        disp('O sistema não é controlável  porque o rank da matriz de controlabilidade é diferente da ordem do sistema.');
         return;
+    else
+        disp('O sistema é controlável porque o rank da matriz de controlabilidade é igual a ordem do sistema')
     end
 
     % Matriz de observabilidade (V)
-    V = obsv(A, C);
     disp('Matriz de observabilidade:');
-    disp(V);
-    if rank(V) < n
-        disp('O sistema não é observável.');
+    V = obsv(A, C)
+
+    disp('Rank da matriz de observabilidade');
+    rankV = rank(V)
+
+    if rankV != n
+        disp('O sistema não é observavel  porque o rank da matriz de observabilidade é diferente da ordem do sistema.');
         return;
+    else
+        disp('O sistema é observavel porque o rank da matriz de observabilidade é igual a ordem do sistema')
     end
 end

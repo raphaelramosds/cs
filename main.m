@@ -1,17 +1,12 @@
 pkg load control;
 pkg load symbolic;
 syms s;
+warning('off', 'all');
 
 clc;
 
-A = [0.3 0; 0 0.5];
-B = [1; 1];
-C = [1 1];
+N=3*s-2
+D=s^2+s
+[Acc, Bcc, Ccc, Dcc] = fn_rcont(N,D)
 
-polos = [-1 -1 -1];
-
-#[G,H] = fn_discretize(A,B, 1);
-
-#[k2, k1] = fn_segreferencia_d(G,H,C,polos);
-
-fn_estabilidade(A,'c')
+[G,H] = fn_discretize(Acc,Bcc,1)
