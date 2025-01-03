@@ -5,12 +5,12 @@ function [k2 k1] = fn_segreferencia_d(G,H,C,polos)
     % @returns
 
     % Ordem do sistema
-    ns = size(G, 1);
-    O = zeros(ns-1, 1);
+    ns = size(G, 1)
+    O = zeros(ns, 1);
 
     % Montar matriz aumentada
     Ga = [G H; zeros(1,ns+1)]
-    Ha = [O; H]
+    Ha = [O; 1] % FIXME Qual a ordem de O?
     n = size(Ga, 1);
 
     % Verificar controlabilidade
