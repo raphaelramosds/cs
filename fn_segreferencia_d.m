@@ -10,7 +10,7 @@ function [k2 k1] = fn_segreferencia_d(G,H,C,polos)
 
     % Montar matriz aumentada
     Ga = [G H; zeros(1,ns+1)]
-    Ha = [O; 1] % FIXME Qual a ordem de O?
+    Ha = [O; 1]
     n = size(Ga, 1);
 
     % Verificar controlabilidade
@@ -25,9 +25,12 @@ function [k2 k1] = fn_segreferencia_d(G,H,C,polos)
 
     % Aplicar fórmula de Ackerman para descobrir k1 e K2
     O = zeros(1, n-1);
-    K = fn_realestados(Ga, Ha, polos) * (-1)
-    aux = (K+[O 1])*inv([G-eye(ns,ns) H; C*G C*H])
 
+    K = fn_realestados(Ga, Ha, polos) * (-1);
+
+    disp("Matriz de ganhos seguidor (K):");
+
+    aux = (K+[O 1])*inv([G-eye(ns,ns) H; C*G C*H])
     k2 = aux(1)
     k1 = aux(2:end)
 

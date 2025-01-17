@@ -9,8 +9,8 @@ function [Acc, Bcc, Ccc, Dcc] = fn_rcont(N, D)
     %   3. D(s) = s^n + a(1)*s^(n-1) + ... + a(n-1)*s + a(n)
 
     % Coeficientes dos polinomios
-    a = fliplr(coeffs(D,'All'))
-    b = fliplr(coeffs(N,'All'))
+    a = fliplr(coeffs(D,'All'));
+    b = fliplr(coeffs(N,'All'));
 
     % Grau dos polinomios
     dn = length(b) - 1;  % Grau de N(s)

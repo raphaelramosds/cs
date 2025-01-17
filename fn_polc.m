@@ -8,7 +8,7 @@ function [U, V] = fn_polc(A, B, C)
     n = size(A, 1)
 
     % Polinômio característico
-    p = poly(A);
+    p = poly(A)
 
     % Polos
     sol = roots(p);
